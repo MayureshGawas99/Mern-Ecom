@@ -8,12 +8,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-var gateway = new braintree.BraintreeGateway({
-  environment: braintree.Environment.Sandbox,
-  merchantId: process.env.BRAINTREE_MERCHANT_ID,
-  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
-  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
-});
+// var gateway = new braintree.BraintreeGateway({
+//   environment: braintree.Environment.Sandbox,
+//   merchantId: process.env.BRAINTREE_MERCHANT_ID,
+//   publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+//   privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+// });
 export const createProductController = async (req, res) => {
   try {
     const { name, slug, description, price, category, quantity, shipping } =
@@ -314,13 +314,13 @@ export const productCategoryController = async (req, res) => {
 
 export const braintreeTokenController = async (req, res) => {
   try {
-    gateway.clientToken.generate({}, function (err, response) {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.send(response);
-      }
-    });
+    // gateway.clientToken.generate({}, function (err, response) {
+    //   if (err) {
+    //     res.status(500).send(err);
+    //   } else {
+    //     res.send(response);
+    //   }
+    // });
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -338,30 +338,30 @@ export const braintreePaymentController = async (req, res) => {
     cart.map((item) => {
       total = total + item.price;
     });
-    let newTransaction = gateway.transaction.sale(
-      {
-        amount: total,
-        paymentMethodNonce: nonce,
-        options: {
-          submitForSettlement: true,
-        },
-      },
-      function (error, result) {
-        // if (error) {
-        //   return res.staus(500).send(error);
-        // }
-        if (result) {
-          const order = new orderModel({
-            products: cart,
-            payment: result,
-            buyer: req.user._id,
-          }).save();
-          res.json({ ok: true });
-        } else {
-          res.status(500).send(error);
-        }
-      }
-    );
+    // let newTransaction = gateway.transaction.sale(
+    //   {
+    //     amount: total,
+    //     paymentMethodNonce: nonce,
+    //     options: {
+    //       submitForSettlement: true,
+    //     },
+    //   },
+    //   function (error, result) {
+    //     // if (error) {
+    //     //   return res.staus(500).send(error);
+    //     // }
+    //     if (result) {
+    //       const order = new orderModel({
+    //         products: cart,
+    //         payment: result,
+    //         buyer: req.user._id,
+    //       }).save();
+    //       res.json({ ok: true });
+    //     } else {
+    //       res.status(500).send(error);
+    //     }
+    //   }
+    // );
   } catch (error) {
     console.log(error);
     res.status(500).send({
